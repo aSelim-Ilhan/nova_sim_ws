@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<robot name="nova" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:include filename="$(find nova_description)/urdf/nova.gazebo.xacro"/>
+
+  <link name="base_link">
+    <visual>
+      <origin xyz="-0.005 0.235 -0.058" rpy="1.5708 0 0"/>
+      <geometry>
+        <mesh filename="package://nova_description/meshes/nova26.stl" scale="1 1 1"/>
+      </geometry>
+      <material name="dark_blue">
+        <color rgba="0.1 0.2 0.5 1.0"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="-0.005 0.235 -0.058" rpy="1.5708 0 0"/>
+      <geometry>
+        <mesh filename="package://nova_description/meshes/nova26.stl" scale="1 1 1"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <!-- 15kg, kutu yaklaşımı: 0.625×0.5×0.35m -->
+      <mass value="15.0"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <inertia ixx="0.466" ixy="0.0" ixz="0.0"
+               iyy="0.801" iyz="0.0"
+               izz="0.641"/>
+    </inertial>
+  </link>
+
+  <!-- ==================== THRUSTER MACRO ==================== -->
+  <!-- T200 thruster: cylinder visual, thrust axis = link X     -->
+  <xacro:macro name="thruster" params="name x y z roll pitch yaw">
+    <link name="thruster_link_${name}">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 1.5708 0"/>
+        <geometry>
+          <cylinder radius="0.05" length="0.057"/>
+        </geometry>
+        <material name="thruster_gray">
+          <color rgba="0.4 0.4 0.4 1.0"/>
+        </material>
+      </visual>
+    </link>
+    <joint name="thruster_joint_${name}" type="fixed">
+      <parent link="base_link"/>
+      <child link="thruster_link_${name}"/>
+      <origin xyz="${x} ${y} ${z}" rpy="${roll} ${pitch} ${yaw}"/>
+    </joint>
+  </xacro:macro>
+
+  <!-- ==================== HORIZONTAL THRUSTERS (45°) ==================== -->
+  <!-- Araç: X=ileri, Y=sol, Z=yukarı                                       -->
+  <!-- Boyutlar: ~0.47m uzun, ~0.625m geniş, ~0.35m yüksek                  -->
+  <xacro:thruster name="1" x=" 0.220" y="-0.150" z="-0.025" roll="0" pitch="0" yaw="-2.3562"/>
+  <xacro:thruster name="2" x=" 0.220" y=" 0.150" z="-0.025" roll="0" pitch="0" yaw=" 2.3562"/>
+  <xacro:thruster name="3" x="-0.220" y=" 0.150" z="-0.025" roll="0" pitch="0" yaw=" 0.7854"/>
+  <xacro:thruster name="4" x="-0.220" y="-0.150" z="-0.025" roll="0" pitch="0" yaw="-0.7854"/>
+
+  <!-- ==================== VERTICAL THRUSTERS ==================== -->
+  <xacro:thruster name="5" x=" 0.100" y="-0.180" z="0.035" roll="0" pitch="1.5708" yaw="0"/>
+  <xacro:thruster name="6" x=" 0.100" y=" 0.180" z="0.035" roll="0" pitch="1.5708" yaw="0"/>
+  <xacro:thruster name="7" x="-0.100" y="-0.180" z="0.035" roll="0" pitch="1.5708" yaw="0"/>
+  <xacro:thruster name="8" x="-0.100" y=" 0.180" z="0.035" roll="0" pitch="1.5708" yaw="0"/>
+
+</robot>

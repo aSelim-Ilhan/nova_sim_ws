@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<robot name="nova" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <!-- Araç gövdesi — koyu mavi, sualtı sürükleme kuvveti -->
+  <gazebo reference="base_link">
+    <material>Gazebo/Blue</material>
+    <mu1>0.1</mu1>
+    <mu2>0.1</mu2>
+    <!-- Sualtı lineer ve açısal sönümleme -->
+    <linearDamping>8.0</linearDamping>
+    <angularDamping>15.0</angularDamping>
+  </gazebo>
+
+  <!-- Thruster linkleri — gri -->
+  <xacro:macro name="thruster_gazebo" params="name">
+    <gazebo reference="thruster_link_${name}">
+      <material>Gazebo/Grey</material>
+      <mu1>0.1</mu1>
+      <mu2>0.1</mu2>
+    </gazebo>
+  </xacro:macro>
+
+  <xacro:thruster_gazebo name="1"/>
+  <xacro:thruster_gazebo name="2"/>
+  <xacro:thruster_gazebo name="3"/>
+  <xacro:thruster_gazebo name="4"/>
+  <xacro:thruster_gazebo name="5"/>
+  <xacro:thruster_gazebo name="6"/>
+  <xacro:thruster_gazebo name="7"/>
+  <xacro:thruster_gazebo name="8"/>
+
+  <!-- Wrench topic'ten kuvvet uygulayan plugin (model plugin) -->
+  <gazebo>
+    <plugin name="gazebo_ros_force" filename="libgazebo_ros_force.so">
+      <ros>
+        <namespace>/nova</namespace>
+      </ros>
+      <link_name>base_link</link_name>
+      <force_frame>world</force_frame>
+    </plugin>
+  </gazebo>
+
+
+</robot>
