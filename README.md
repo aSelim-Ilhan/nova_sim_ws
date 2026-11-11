@@ -2,6 +2,16 @@
 
 ROS2 Humble tabanlı 8 motorlu (6-DoF) sualtı insansız aracı (AUV) simülasyon workspace'i.
 
+## Görseller
+
+| RViz — Robot Modeli | RViz — TF Ağacı |
+|:-------------------:|:---------------:|
+| ![RViz Robot](docs/rviz_robot.png) | ![RViz TF](docs/rviz_tf.png) |
+
+| RViz — Sadece TF Çerçeveleri | Gazebo — Sualtı Simülasyonu |
+|:----------------------------:|:---------------------------:|
+| ![TF Frames](docs/rviz_tf_only.png) | ![Gazebo](docs/gazebo_sim.png) |
+
 ## Gereksinimler
 
 ```bash
